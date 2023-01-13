@@ -1,0 +1,69 @@
+import random
+
+operators = ['+', '-', '*']
+marks = 0
+
+def validate_input():
+    while True:
+        answer = input()
+        if answer.lstrip("-+").isdigit():
+            return int(answer)
+        print("Incorrect format")
+
+def simple_operation():
+    global marks
+    operand1 = random.randint(2, 9)
+    operand2 = random.randint(2, 9)
+    operator_ = random.choice(operators)
+    print(f'{operand1} {operator_} {operand2}')
+
+    match operator_:
+        case "+":
+            result = operand1 + operand2
+        case "-":
+            result = operand1 - operand2
+        case '*':
+            result = operand1 * operand2
+
+    user_input = validate_input()
+
+    if user_input == result:
+        print("Right!")
+        marks += 1
+    else:
+        print("Wrong!")  
+
+def integral_squares():
+    global marks
+    num = random.randint(11,29)
+    print(num)
+    result = num ** 2
+    user_input = validate_input()
+    if user_input == result:
+        print("Right!")
+        marks += 1
+    else:
+        print("Wrong!")
+
+while True:
+    level = input("Which level do you want? Enter a number:\
+                        1 - simple operations with numbers 2-9\
+                        2 - integral squares of 11-29")
+    if level == '1':
+        for _ in range(5):
+            simple_operation()
+        level_description = "simple operations with numbers 2-9"
+        break
+    elif level == '2':
+        for _ in range(5):
+            integral_squares()
+        level_description = "integral squares 11-29"
+        break
+   
+print(f"Your mark is {marks}/5. Would you like to save the result? Enter yes or no")
+save_result = input()
+if save_result in {'yes', 'YES', 'y', 'Yes'}:
+    name = input("What is your name?\n")
+    with open("results.txt", "a+") as file:
+        file.write(f'{name}: {marks}/5 in level {level} ({level_description})')
+    print('The results are saved in "results.txt".')
